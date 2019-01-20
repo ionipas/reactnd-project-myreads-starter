@@ -5,7 +5,7 @@ import BookShelf from './components/BookShelf'
 import Header from './components/Header'
 import SearchPage from './components/SearchPage'
 
-const shelfes = [
+const shelves = [
   {
     "text": "Currently Reading",
     "name": "currentlyReading"
