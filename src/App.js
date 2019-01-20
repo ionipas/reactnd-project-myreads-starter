@@ -3,8 +3,16 @@ import React from 'react'
 import './App.css'
 import BookShelfChanger from './components/BookShelfChanger'
 import BookItem from './components/BookItem'
+import BookShelf from './components/BookShelf'
+
+const shelfes = [
+  {"text": "Currently Reading"},
+  {"text": "Want to Read"},
+  {"text": "Read"}    
+]
 
 class BooksApp extends React.Component {
+
   state = {
     books: [
       {
@@ -89,26 +97,7 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-              <div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Currently Reading</h2>
-                  <div className="bookshelf-books">
-                    <BookItem books={this.state.books}/>
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <BookItem books={this.state.books}/>
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Read</h2>
-                  <div className="bookshelf-books">
-                    <BookItem books={this.state.books}/>
-                  </div>
-                </div>
-              </div>
+              <BookShelf shelf={shelfes} books={this.state.books}/>
             </div>
             <div className="open-search">
               <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
