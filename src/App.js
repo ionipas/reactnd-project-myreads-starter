@@ -79,6 +79,7 @@ class BooksApp extends React.Component {
 
   hideSearchPage = () => {
     this.setState({ showSearchPage: false })
+    this.getBooks()
   }
 
   componentDidMount() {
