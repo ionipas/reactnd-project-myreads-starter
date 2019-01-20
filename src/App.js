@@ -162,6 +162,7 @@ class BooksApp extends React.Component {
               updateQuery={this.updateQuery}
               books={this.state.books}
               searchResult={this.state.searchResult}
+              onChangeBookShelf={this.changeBookShelf}
             />
         ) : (
           <div className="list-books">
