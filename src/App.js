@@ -4,6 +4,7 @@ import './App.css'
 import BookShelfChanger from './components/BookShelfChanger'
 import BookItem from './components/BookItem'
 import BookShelf from './components/BookShelf'
+import Header from './components/Header'
 
 const shelfes = [
   {"text": "Currently Reading"},
@@ -93,9 +94,7 @@ class BooksApp extends React.Component {
           </div>
         ) : (
           <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
+            <Header />
             <div className="list-books-content">
               <BookShelf shelf={shelfes} books={this.state.books}/>
             </div>
