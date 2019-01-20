@@ -25,7 +25,7 @@ function SearchPage(props) {
         </div>
       </div>
       <div className="search-books-results">
-        <BookItem books={props.books}/>
+        {props.searchResult && <BookItem books={props.books}/>}
       </div>
     </div>
 	)

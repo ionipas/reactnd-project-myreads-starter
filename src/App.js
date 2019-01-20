@@ -74,13 +74,15 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    query: ''
+    query: '',
+    searchResult: false
   }
 
   hideSearchPage = () => {
     this.setState({ showSearchPage: false })
     this.getBooks()
     this.setState({query: ''})
+    this.setState({searchResult: false})
   }
 
   componentDidMount() {
@@ -143,7 +145,9 @@ class BooksApp extends React.Component {
           }
         })
         this.setState({books: showingBooks})
+        this.setState({searchResult: true})
         console.log(books)
+        console.log(books.length)
       })
     }
   }
@@ -157,6 +161,7 @@ class BooksApp extends React.Component {
               query={this.state.query}
               updateQuery={this.updateQuery}
               books={this.state.books}
+              searchResult={this.state.searchResult}
             />
         ) : (
           <div className="list-books">
