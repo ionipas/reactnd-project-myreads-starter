@@ -125,6 +125,25 @@ class BooksApp extends React.Component {
 
   updateQuery = (query) => {
     this.setState({query: query})
+    this.searchBooks(query)
+  }
+
+  searchBooks = (query) => {
+    if(query) {     
+      BooksAPI.search(query).then((books) => {
+        const showingBooks = books.map((book) => {
+          return {
+            id: book.id,
+            title: book.title,
+            author: book.authors,
+            bookcover: book.imageLinks.thumbnail,
+            shelf: book.shelf           
+          }
+        })
+        this.setState({books: showingBooks})
+        console.log(books)
+      })
+    }
   }
 
   render() {
@@ -135,6 +154,7 @@ class BooksApp extends React.Component {
               hideSearchPage={this.hideSearchPage} 
               query={this.state.query}
               updateQuery={this.updateQuery}
+              books={this.state.books}
             />
         ) : (
           <div className="list-books">

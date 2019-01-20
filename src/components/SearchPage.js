@@ -1,4 +1,5 @@
 import React from 'react'
+import BookItem from './BookItem'
 
 function SearchPage(props) {
 	return(
@@ -24,7 +25,7 @@ function SearchPage(props) {
         </div>
       </div>
       <div className="search-books-results">
-        <ol className="books-grid"></ol>
+        <BookItem books={props.books}/>
       </div>
     </div>
 	)
