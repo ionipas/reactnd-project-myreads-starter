@@ -10,7 +10,8 @@ function BookShelf(props) {
 		      <div className="bookshelf-books">
 		        <BookItem 
 		        	books={props.books.filter((book) => book.shelf === shelf.name)} 
-		        	shelf={props.shelf} 
+		        	shelf={props.shelf}
+		        	onChangeBookShelf={props.onChangeBookShelf}
 		        />
 		      </div>
 		    </div>

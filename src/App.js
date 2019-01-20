@@ -101,6 +101,25 @@ class BooksApp extends React.Component {
     })
   }
 
+  changeBookShelf = (book, event) => {
+    const newShelf = event.target.value
+    console.log(newShelf)
+    this.setState((state) => {
+      const bookToMove = state.books.find((b) => b.id === book.id)
+      console.log(bookToMove)
+      return {
+        books: state.books.filter((b) => b.id !== book.id)
+        .concat([{
+          id: bookToMove.id,
+          title: bookToMove.title,
+          author: bookToMove.authors,
+          bookcover: bookToMove.bookcover,
+          shelf: newShelf
+        }])
+      }
+    })
+  }
+
   render() {
     return (
       <div className="app">
@@ -113,6 +132,7 @@ class BooksApp extends React.Component {
               <BookShelf 
                 shelf={shelfes} 
                 books={this.state.books}
+                onChangeBookShelf={this.changeBookShelf}
               />
             </div>
             <div className="open-search">
