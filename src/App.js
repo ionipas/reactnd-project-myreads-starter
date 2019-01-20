@@ -1,5 +1,5 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 import BookShelf from './components/BookShelf'
 import Header from './components/Header'
@@ -15,7 +15,7 @@ class BooksApp extends React.Component {
 
   state = {
     books: [
-      {
+/*      {
         id: "To Kill a Mockingbird",
         title: "To Kill a Mockingbird",
         author: "Harper Lee",
@@ -56,7 +56,7 @@ class BooksApp extends React.Component {
         title: "The Adventures of Tom Sawyer",
         author: "Mark Twain",
         bookcover: "http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api"
-      }
+      }*/
     ],
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -69,6 +69,24 @@ class BooksApp extends React.Component {
 
   hideSearchPage = () => {
     this.setState({ showSearchPage: false })
+  }
+
+  componentDidMount() {
+    this.getBooks()
+  }
+
+  getBooks = () => {
+    BooksAPI.getAll().then((books) => {
+      const fetchedBooks = books.map((book) => {
+        return {
+          id: book.id,
+          title: book.title,
+          author: book.authors,
+          bookcover: book.imageLinks.thumbnail,
+        }
+      })
+      this.setState({books: fetchedBooks})
+    })
   }
 
   render() {
