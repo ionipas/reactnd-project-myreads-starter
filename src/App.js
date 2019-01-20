@@ -73,7 +73,8 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    showSearchPage: false,
+    query: ''
   }
 
   hideSearchPage = () => {
@@ -126,7 +127,10 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-            <SearchPage hideSearchPage={this.hideSearchPage} />
+            <SearchPage 
+              hideSearchPage={this.hideSearchPage} 
+              query={this.state.query}
+            />
         ) : (
           <div className="list-books">
             <Header />
