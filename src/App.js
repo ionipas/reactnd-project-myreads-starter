@@ -103,7 +103,9 @@ class BooksApp extends React.Component {
 
   changeBookShelf = (book, event) => {
     const newShelf = event.target.value
-    console.log(newShelf)
+
+    BooksAPI.update(book, newShelf)
+
     this.setState((state) => {
       const bookToMove = state.books.find((b) => b.id === book.id)
       console.log(bookToMove)
