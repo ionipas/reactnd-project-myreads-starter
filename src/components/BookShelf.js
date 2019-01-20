@@ -8,7 +8,10 @@ function BookShelf(props) {
 		    <div className="bookshelf" key={shelf.name}>
 		      <h2 className="bookshelf-title">{shelf.text}</h2>
 		      <div className="bookshelf-books">
-		        <BookItem books={props.books.filter((book) => book.shelf === shelf.name)} shelfes={props.shelfes} />
+		        <BookItem 
+		        	books={props.books.filter((book) => book.shelf === shelf.name)} 
+		        	shelf={props.shelf} 
+		        />
 		      </div>
 		    </div>
 			)}

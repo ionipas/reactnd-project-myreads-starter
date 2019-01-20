@@ -87,7 +87,7 @@ class BooksApp extends React.Component {
   getBooks = () => {
     BooksAPI.getAll().then((books) => { 
       const fetchedBooks = books.map((book) => {
-      console.log(books)        
+      console.log(book)        
         return {
           id: book.id,
           title: book.title,
@@ -110,7 +110,10 @@ class BooksApp extends React.Component {
           <div className="list-books">
             <Header />
             <div className="list-books-content">
-              <BookShelf shelf={shelfes} books={this.state.books}/>
+              <BookShelf 
+                shelf={shelfes} 
+                books={this.state.books}
+              />
             </div>
             <div className="open-search">
               <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
