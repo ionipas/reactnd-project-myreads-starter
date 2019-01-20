@@ -6,9 +6,18 @@ import Header from './components/Header'
 import SearchPage from './components/SearchPage'
 
 const shelfes = [
-  {"text": "Currently Reading"},
-  {"text": "Want to Read"},
-  {"text": "Read"}    
+  {
+    "text": "Currently Reading",
+    "name": "currentlyReading"
+  },
+  {
+    "text": "Want to Read",
+    "name": "wantToRead"
+  },
+  {
+    "text": "Read",
+    "name": "read"
+  }    
 ]
 
 class BooksApp extends React.Component {
@@ -76,16 +85,19 @@ class BooksApp extends React.Component {
   }
 
   getBooks = () => {
-    BooksAPI.getAll().then((books) => {
+    BooksAPI.getAll().then((books) => { 
       const fetchedBooks = books.map((book) => {
+      console.log(books)        
         return {
           id: book.id,
           title: book.title,
           author: book.authors,
           bookcover: book.imageLinks.thumbnail,
+          shelf: book.shelf
         }
       })
       this.setState({books: fetchedBooks})
+      console.log(fetchedBooks)
     })
   }
 
