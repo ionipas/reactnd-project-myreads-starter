@@ -1,8 +1,6 @@
 import React from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
-import BookShelfChanger from './components/BookShelfChanger'
-import BookItem from './components/BookItem'
 import BookShelf from './components/BookShelf'
 import Header from './components/Header'
 import SearchPage from './components/SearchPage'
