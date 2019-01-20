@@ -130,13 +130,11 @@ class BooksApp extends React.Component {
         ) : (
           <div className="list-books">
             <Header />
-            <div className="list-books-content">
-              <BookShelf 
-                shelf={shelfes} 
-                books={this.state.books}
-                onChangeBookShelf={this.changeBookShelf}
-              />
-            </div>
+            <BookShelf 
+              shelf={shelfes} 
+              books={this.state.books}
+              onChangeBookShelf={this.changeBookShelf}
+            />
             <div className="open-search">
               <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
             </div>
