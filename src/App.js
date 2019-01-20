@@ -123,6 +123,10 @@ class BooksApp extends React.Component {
     })
   }
 
+  updateQuery = (query) => {
+    this.setState({query: query})
+  }
+
   render() {
     return (
       <div className="app">
@@ -130,12 +134,13 @@ class BooksApp extends React.Component {
             <SearchPage 
               hideSearchPage={this.hideSearchPage} 
               query={this.state.query}
+              updateQuery={this.updateQuery}
             />
         ) : (
           <div className="list-books">
             <Header />
             <BookShelf 
-              shelf={shelfes} 
+              shelf={shelves}
               books={this.state.books}
               onChangeBookShelf={this.changeBookShelf}
             />
