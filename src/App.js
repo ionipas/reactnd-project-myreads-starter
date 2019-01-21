@@ -132,7 +132,7 @@ class BooksApp extends React.Component {
     this.searchBooks(query)
   }
 
-  searchBooks = (query) => {
+/*  searchBooks = (query) => {
     if(query) {     
       BooksAPI.search(query).then((books) => {
         const showingBooks = books.map((book) => {
@@ -141,17 +141,45 @@ class BooksApp extends React.Component {
             title: book.title,
             author: book.authors,
             bookcover: book.imageLinks.thumbnail,
-            shelf: book.shelf           
+            shelf: "none"           
           }
         })
         this.setState({books: showingBooks})
         this.setState({searchResult: true})
-        console.log(books)
-        console.log(books.length)
+        console.log(showingBooks)
+      })
+    }
+  }*/
+
+  searchBooks = (query) => {
+    if(query) {     
+      BooksAPI.search(query).then((books) => {
+        const showingBooks = books.map((book) => {
+          const bookOnShelf = this.state.books.find((b) => b.id === book.id)
+          if (bookOnShelf === undefined) {
+            return {
+              id: book.id,
+              title: book.title,
+              author: book.authors,
+              bookcover: book.imageLinks.thumbnail,
+              shelf: "none"           
+            }
+          } else {
+            return {
+              id: bookOnShelf.id,
+              title: bookOnShelf.title,
+              author: bookOnShelf.author,
+              bookcover: bookOnShelf.bookcover,
+              shelf: bookOnShelf.shelf              
+            }
+          }
+        })
+        this.setState({books: showingBooks})
+        this.setState({searchResult: true})
       })
     }
   }
-
+    
   render() {
     return (
       <div className="app">
