@@ -46,13 +46,13 @@ class BooksApp extends React.Component {
         return {
           id: book.id,
           title: book.title,
-          author: book.authors,
-          bookcover: book.imageLinks.thumbnail,
+          author: book.authors + '',
+          bookcover: book.imageLinks && book.imageLinks.thumbnail,
           shelf: book.shelf
         }
       })
       this.setState({books: fetchedBooks})
-    })
+    }).catch(error => console.log(error))
   }
 
   changeBookShelf = (book, event) => {
@@ -83,14 +83,15 @@ class BooksApp extends React.Component {
   searchBooks = (query) => {
     if(query) {     
       BooksAPI.search(query).then((books) => {
+          console.log(books)
         const showingBooks = books.map((book) => {
           const bookOnShelf = this.state.books.find((b) => b.id === book.id)
           if (bookOnShelf === undefined) {
             return {
               id: book.id,
               title: book.title,
-              author: book.authors,
-              bookcover: book.imageLinks.thumbnail,
+              author: book.authors && book.authors + '',
+              bookcover: book.imageLinks && book.imageLinks.thumbnail,
               shelf: "none"           
             }
           } else {
@@ -105,7 +106,7 @@ class BooksApp extends React.Component {
         })
         this.setState({books: showingBooks})
         this.setState({searchResult: true})
-      })
+      }).catch(error => console.log(error))
     }
   }
     
