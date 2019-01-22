@@ -25,7 +25,7 @@ function SearchPage(props) {
         </div>
       </div>
       <div className="search-books-results">
-        {props.searchResult && <BookItem books={props.books} onChangeBookShelf={props.onChangeBookShelf} />}
+        {props.searchResult && props.query && <BookItem books={props.books} onChangeBookShelf={props.onChangeBookShelf} />}
       </div>
     </div>
 	)
