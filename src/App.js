@@ -17,7 +17,7 @@ const shelves = [
   {
     "text": "Read",
     "name": "read"
-  }    
+  }
 ]
 
 class BooksApp extends React.Component {
@@ -43,6 +43,7 @@ class BooksApp extends React.Component {
     this.setState({query: ''})
     this.setState({searchResult: false})
   }
+
   showSearchPage = () => {
     this.setState({ showSearchPage: true })
     this.setState({books: []})
@@ -59,48 +60,41 @@ class BooksApp extends React.Component {
           shelf: book.shelf
         }
       })
-      this.setState({books: fetchedBooks})               
+      this.setState({books: fetchedBooks})
     }).catch(error => console.log(error))
     this.saveShelf()
-    console.log()
   }
 
   saveShelf = () => {
     BooksAPI.getAll().then((books) => {
       const currentlyReading = books.filter((book) => book.shelf === "currentlyReading")
       .map((book) => {
-        console.log(book.shelf, book.id)
         return {
           id: book.id
         }
       })
       const wantToRead = books.filter((book) => book.shelf === "wantToRead")
       .map((book) => {
-        console.log(book.shelf, book.id)
         return {
           id: book.id
         }
-      })            
+      })
       const read = books.filter((book) => book.shelf === "read")
       .map((book) => {
-        console.log(book.shelf, book.id)
         return {
           id: book.id
         }
       })
       this.setState({currentlyReading: currentlyReading})
       this.setState({wantToRead: wantToRead})
-      this.setState({read: read})                  
+      this.setState({read: read})
     }).catch(error => console.log(error))
   }
 
   changeBookShelf = (book, event) => {
     const newShelf = event.target.value
 
-    BooksAPI.update(book, newShelf).then((shelf) => {
-      console.log(book.shelf)
-      console.log(book.id)
-    })
+    BooksAPI.update(book, newShelf)
 
     this.setState((state) => {
       const bookToMove = state.books.find((b) => b.id === book.id)
@@ -116,9 +110,6 @@ class BooksApp extends React.Component {
       }
     })
     this.saveShelf()
-    console.log(this.state.currentlyReading)
-    console.log(this.state.wantToRead)
-    console.log(this.state.read)
   }
 
   updateQuery = (query) => {
@@ -128,23 +119,19 @@ class BooksApp extends React.Component {
   }
 
   searchBooks = (query) => {
-    if(query) {     
+    if(query) {
       BooksAPI.search(query).then((books) => {
-        console.log(books)
         const showingBooks = books.map((book) => {
           const bookOnCurrentlyReading = this.state.currentlyReading.find((s) => s.id === book.id)
-          console.log(bookOnCurrentlyReading)
           const bookOnWantToRead = this.state.wantToRead.find((s) => s.id === book.id)
-          console.log(bookOnWantToRead)
           const bookOnRead = this.state.read.find((s) => s.id === book.id)
-          console.log(bookOnRead)
           if (bookOnCurrentlyReading !== undefined) {
               return {
-              id: book.id,
-              title: book.title,
-              author: book.authors && book.authors + '',
-              bookcover: book.imageLinks && book.imageLinks.thumbnail,
-                shelf: "currentlyReading"           
+                id: book.id,
+                title: book.title,
+                author: book.authors && book.authors + '',
+                bookcover: book.imageLinks && book.imageLinks.thumbnail,
+                shelf: "currentlyReading"
               }
           } else if (bookOnWantToRead !== undefined) {
             return {
@@ -152,7 +139,7 @@ class BooksApp extends React.Component {
               title: book.title,
               author: book.authors && book.authors + '',
               bookcover: book.imageLinks && book.imageLinks.thumbnail,
-              shelf: "wantToRead"           
+              shelf: "wantToRead"
             }
           } else if (bookOnRead !== undefined) {
             return {
@@ -160,15 +147,15 @@ class BooksApp extends React.Component {
               title: book.title,
               author: book.authors && book.authors + '',
               bookcover: book.imageLinks && book.imageLinks.thumbnail,
-              shelf: "read"          
-            }              
+              shelf: "read"
+            }
           } else {
             return {
               id: book.id,
               title: book.title,
               author: book.authors && book.authors + '',
               bookcover: book.imageLinks && book.imageLinks.thumbnail,
-              shelf: "none"           
+              shelf: "none"
             }
           }
         })
@@ -177,13 +164,13 @@ class BooksApp extends React.Component {
       }).catch(error => console.log(error))
     }
   }
-    
+
   render() {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-            <SearchPage 
-              hideSearchPage={this.hideSearchPage} 
+            <SearchPage
+              hideSearchPage={this.hideSearchPage}
               query={this.state.query}
               updateQuery={this.updateQuery}
               books={this.state.books}
@@ -193,7 +180,7 @@ class BooksApp extends React.Component {
         ) : (
           <div className="list-books">
             <Header />
-            <BookShelf 
+            <BookShelf
               shelf={shelves}
               books={this.state.books}
               onChangeBookShelf={this.changeBookShelf}
