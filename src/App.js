@@ -94,7 +94,7 @@ class BooksApp extends React.Component {
   changeBookShelf = (book, event) => {
     const newShelf = event.target.value
 
-    BooksAPI.update(book, newShelf)
+    BooksAPI.update(book, newShelf).then(() => this.saveShelf())
 
     this.setState((state) => {
       const bookToMove = state.books.find((b) => b.id === book.id)
@@ -109,7 +109,6 @@ class BooksApp extends React.Component {
         }])
       }
     })
-    this.saveShelf()
   }
 
   updateQuery = (query) => {
