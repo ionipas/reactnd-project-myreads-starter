@@ -26,7 +26,15 @@ class BooksApp extends React.Component {
     books: [],
     showSearchPage: false,
     query: '',
-    searchResult: false
+    searchResult: false,
+    currentlyReading: [],
+    wantToRead: [],
+    read: []
+  }
+
+  componentDidMount() {
+    this.getBooks()
+    this.saveShelf()
   }
 
   hideSearchPage = () => {
@@ -35,14 +43,14 @@ class BooksApp extends React.Component {
     this.setState({query: ''})
     this.setState({searchResult: false})
   }
-
-  componentDidMount() {
-    this.getBooks()
+  showSearchPage = () => {
+    this.setState({ showSearchPage: true })
+    this.setState({books: []})
   }
 
   getBooks = () => {
-    BooksAPI.getAll().then((books) => { 
-      const fetchedBooks = books.map((book) => {   
+    BooksAPI.getAll().then((books) => {
+      const fetchedBooks = books.map((book) => {
         return {
           id: book.id,
           title: book.title,
@@ -51,14 +59,48 @@ class BooksApp extends React.Component {
           shelf: book.shelf
         }
       })
-      this.setState({books: fetchedBooks})
+      this.setState({books: fetchedBooks})               
+    }).catch(error => console.log(error))
+    this.saveShelf()
+    console.log()
+  }
+
+  saveShelf = () => {
+    BooksAPI.getAll().then((books) => {
+      const currentlyReading = books.filter((book) => book.shelf === "currentlyReading")
+      .map((book) => {
+        console.log(book.shelf, book.id)
+        return {
+          id: book.id
+        }
+      })
+      const wantToRead = books.filter((book) => book.shelf === "wantToRead")
+      .map((book) => {
+        console.log(book.shelf, book.id)
+        return {
+          id: book.id
+        }
+      })            
+      const read = books.filter((book) => book.shelf === "read")
+      .map((book) => {
+        console.log(book.shelf, book.id)
+        return {
+          id: book.id
+        }
+      })
+      this.setState({currentlyReading: currentlyReading})
+      this.setState({wantToRead: wantToRead})
+      this.setState({read: read})                  
     }).catch(error => console.log(error))
   }
 
   changeBookShelf = (book, event) => {
     const newShelf = event.target.value
 
-    BooksAPI.update(book, newShelf)
+    BooksAPI.update(book, newShelf).then((shelf) => {
+      console.log(book.shelf)
+      console.log(book.id)
+    })
 
     this.setState((state) => {
       const bookToMove = state.books.find((b) => b.id === book.id)
@@ -73,34 +115,60 @@ class BooksApp extends React.Component {
         }])
       }
     })
+    this.saveShelf()
+    console.log(this.state.currentlyReading)
+    console.log(this.state.wantToRead)
+    console.log(this.state.read)
   }
 
   updateQuery = (query) => {
     this.setState({query: query})
+    this.setState({books: []})
     this.searchBooks(query)
   }
 
   searchBooks = (query) => {
     if(query) {     
       BooksAPI.search(query).then((books) => {
-          console.log(books)
+        console.log(books)
         const showingBooks = books.map((book) => {
-          const bookOnShelf = this.state.books.find((b) => b.id === book.id)
-          if (bookOnShelf === undefined) {
+          const bookOnCurrentlyReading = this.state.currentlyReading.find((s) => s.id === book.id)
+          console.log(bookOnCurrentlyReading)
+          const bookOnWantToRead = this.state.wantToRead.find((s) => s.id === book.id)
+          console.log(bookOnWantToRead)
+          const bookOnRead = this.state.read.find((s) => s.id === book.id)
+          console.log(bookOnRead)
+          if (bookOnCurrentlyReading !== undefined) {
+              return {
+              id: book.id,
+              title: book.title,
+              author: book.authors && book.authors + '',
+              bookcover: book.imageLinks && book.imageLinks.thumbnail,
+                shelf: "currentlyReading"           
+              }
+          } else if (bookOnWantToRead !== undefined) {
+            return {
+              id: book.id,
+              title: book.title,
+              author: book.authors && book.authors + '',
+              bookcover: book.imageLinks && book.imageLinks.thumbnail,
+              shelf: "wantToRead"           
+            }
+          } else if (bookOnRead !== undefined) {
+            return {
+              id: book.id,
+              title: book.title,
+              author: book.authors && book.authors + '',
+              bookcover: book.imageLinks && book.imageLinks.thumbnail,
+              shelf: "read"          
+            }              
+          } else {
             return {
               id: book.id,
               title: book.title,
               author: book.authors && book.authors + '',
               bookcover: book.imageLinks && book.imageLinks.thumbnail,
               shelf: "none"           
-            }
-          } else {
-            return {
-              id: bookOnShelf.id,
-              title: bookOnShelf.title,
-              author: bookOnShelf.author,
-              bookcover: bookOnShelf.bookcover,
-              shelf: bookOnShelf.shelf              
             }
           }
         })
@@ -131,7 +199,7 @@ class BooksApp extends React.Component {
               onChangeBookShelf={this.changeBookShelf}
             />
             <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+              <button onClick={this.showSearchPage}>Add a book</button>
             </div>
           </div>
         )}
