@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import BookItem from './BookItem'
 
 function SearchPage(props) {
 	return(
     <div className="search-books">
       <div className="search-books-bar">
-        <button className="close-search" onClick={ props.hideSearchPage }>Close</button>
+        <Link to="/"><button className="close-search" onClick={ props.onHideSearchPage }>Close</button></Link>
         <div className="search-books-input-wrapper">
           <input
             type="text"

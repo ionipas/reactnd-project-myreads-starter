@@ -1,4 +1,6 @@
 import React from 'react'
+import { Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import BookShelf from './components/BookShelf'
@@ -24,7 +26,6 @@ class BooksApp extends React.Component {
 
   state = {
     books: [],
-    showSearchPage: false,
     query: '',
     searchResult: false,
     currentlyReading: [],
@@ -37,15 +38,13 @@ class BooksApp extends React.Component {
     this.saveShelf()
   }
 
-  hideSearchPage = () => {
-    this.setState({ showSearchPage: false })
+  onHideSearchPage = () => {
     this.getBooks()
     this.setState({query: ''})
     this.setState({searchResult: false})
   }
 
-  showSearchPage = () => {
-    this.setState({ showSearchPage: true })
+  onShowSearchPage = () => {
     this.setState({books: []})
   }
 
@@ -167,16 +166,17 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-            <SearchPage
-              hideSearchPage={this.hideSearchPage}
-              query={this.state.query}
-              updateQuery={this.updateQuery}
-              books={this.state.books}
-              searchResult={this.state.searchResult}
-              onChangeBookShelf={this.changeBookShelf}
-            />
-        ) : (
+        <Route path="/search" render = {() => (
+          <SearchPage
+            onHideSearchPage={this.onHideSearchPage}
+            query={this.state.query}
+            updateQuery={this.updateQuery}
+            books={this.state.books}
+            searchResult={this.state.searchResult}
+            onChangeBookShelf={this.changeBookShelf}
+          />
+        )}/>
+        <Route exact path="/" render = {() => (
           <div className="list-books">
             <Header />
             <BookShelf
@@ -185,10 +185,10 @@ class BooksApp extends React.Component {
               onChangeBookShelf={this.changeBookShelf}
             />
             <div className="open-search">
-              <button onClick={this.showSearchPage}>Add a book</button>
+              <Link to="/search" ><button onClick={this.onShowSearchPage}>Add a book</button></Link>
             </div>
           </div>
-        )}
+        )}/>
       </div>
     )
   }
